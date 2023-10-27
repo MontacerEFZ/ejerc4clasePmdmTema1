@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Ejercicio4clase</string>
     <string name="titulo">Añadir Inmueble</string>
+    <string name="tituloEdit">Editar Inmueble</string>
     <string name="direccion">Direccion</string>
     <string name="numero">Número</string>
     <string name="ciudad">Ciudad</string>

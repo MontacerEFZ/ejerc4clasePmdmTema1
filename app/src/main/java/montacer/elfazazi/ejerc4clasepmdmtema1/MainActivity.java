@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ActivityResultLauncher<Intent> launcherAddInmueble;
+    private ActivityResultLauncher<Intent> launcherEditInmueble;
 
     private ArrayList<Inmueble> listaInmuebles;
 
@@ -66,6 +67,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        launcherEditInmueble = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == RESULT_OK){
+                            if (result.getData() != null && result.getData().getExtras() != null) {
+                                //pulsaron editar
+                                Inmueble inmueble = (Inmueble) result.getData().getExtras().getSerializable("INMUEBLE");
+                                int posicion = result.getData().getExtras().getInt("POSICION");
+                                
+                                if (inmueble == null){
+                                    listaInmuebles.remove(posicion);
+                                }else {
+                                    listaInmuebles.set(posicion, inmueble);
+                                    
+                                }
+                                    mostrarInmueble();
+                            }else{
+                                //pulsaron borrar
+                                Toast.makeText(MainActivity.this, "accion canceladas", Toast.LENGTH_SHORT).show();
+                            }
+                        }else{
+                            Toast.makeText(MainActivity.this, "has vuelto atras", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
     }
 
     private void mostrarInmueble() {
@@ -86,6 +115,21 @@ public class MainActivity extends AppCompatActivity {
             lbNumero.setText(String.valueOf(inmueble.getNumero()));
             lbCiudad.setText(inmueble.getCiudad());
             rbValoracion.setRating(inmueble.getValoracion());
+
+            int posicion = i;
+            inmuebleView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    //enviar inmueble
+                    Intent intent = new Intent(MainActivity.this, EditInmuebleActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("INMUEBLE", inmueble);
+                    bundle.putInt("POSICION", posicion);
+                    intent.putExtras(bundle);
+
+                    launcherEditInmueble.launch(intent);
+                }
+            });
 
             binding.contentMain.contenedor.addView(inmuebleView);
         }
