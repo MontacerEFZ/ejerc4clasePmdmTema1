@@ -80,14 +80,14 @@ public class MainActivity extends AppCompatActivity {
                                 
                                 if (inmueble == null){
                                     listaInmuebles.remove(posicion);
+                                    Toast.makeText(MainActivity.this, "borrado", Toast.LENGTH_SHORT).show();
                                 }else {
                                     listaInmuebles.set(posicion, inmueble);
                                     
                                 }
                                     mostrarInmueble();
                             }else{
-                                //pulsaron borrar
-                                Toast.makeText(MainActivity.this, "accion canceladas", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(MainActivity.this, "canceladoooo", Toast.LENGTH_SHORT).show();
                             }
                         }else{
                             Toast.makeText(MainActivity.this, "has vuelto atras", Toast.LENGTH_SHORT).show();
